@@ -1,4 +1,4 @@
-package politicas;
+package seguranca;
 
 public class ChefeServicoBordo {
 	
