@@ -17,7 +17,7 @@ import tripulacaotecnica.Piloto;
 
 public class Processador {
 	
-	private Piloto piloto = new Piloto();
+	Piloto piloto = new Piloto();
 	Oficial_1 oficial_1 = new Oficial_1();
 	Oficial_2 oficial_2 = new Oficial_2();
 	Comissaria_1 comissaria_1 = new Comissaria_1();
@@ -28,16 +28,15 @@ public class Processador {
 	VeiculoSmartFortwo veiculo = new VeiculoSmartFortwo();
 	Aviao aviao = new Aviao();
 	
-	List<String> AVIAO = new ArrayList<String>();
 	List<String> VEICULO = new ArrayList<String>();
 	
 	private Scanner opcao = new Scanner(System.in);
-	private Integer count = 0;
 	private Boolean conseguiu = true;
 	
 	public void processarGame() {
 		
-		System.out.println("Leve os tripulantes do terminal para o avião.");
+		System.out.println("LEVE OS TRIPULANTES DO TERMIONAL PARA O AVIÃO.");
+		System.out.println("MAS CUIDADO! ESCOLHA BEM QUEM VAI PILOTAR O VEÍCULO.");
 		
 		do {
 			
@@ -54,34 +53,11 @@ public class Processador {
 		VEICULO = veiculo.verificarRegraDoVeiculoParaCompaheiroDoVeiculo(oficial_1, oficial_2, comissaria_1, comissaria_2,
 				presidiario, VEICULO, tripulanteEscolhido);
 		
-		if(VEICULO.contains(piloto.getProfissao()) &&  AVIAO.contains(comissaria_1.getProfissao()) || VEICULO.contains(piloto.getProfissao()) &&  AVIAO.contains(comissaria_2.getProfissao())) {
-			System.out.println("NENHUMA DAS COMISSÁRIAS PODEM FICAR SOZINHA COM O PILOTO.");
-			System.out.println("------------------------------------------------------------------------------------");
-		} else {
-			
-			for (String pessoa : VEICULO) {
-				System.out.println("Veiculo indo ao avião... ");
-				AVIAO.add(pessoa);
-			}
-			
-			for (String tripulante : AVIAO) {
-				System.out.println("Veiculo chegou no avião. ");
-				count++;
-				if(tripulante.equals(policial.getProfissao())) {
-					System.out.print("POLICIAL");
-				}
-				
-			}
-			
-			System.out.println("Tripulantes no Avião: " + count);
-			
-			conseguiu = aviao.verificarTripulantes(conseguiu, oficial_1, oficial_2, AVIAO);
-		
-		}
+		veiculo.verificarRegraDeQuemEstaNoVeiculo(conseguiu, aviao, VEICULO, comissaria_1, piloto, policial, comissaria_2, oficial_1, oficial_2, presidiario, chefeServicoVoo);
 		
 		} while (conseguiu);
 		
-		System.out.println("Parabéns!! Conseguiu Resolver!");
+		System.out.println("PARABÉNS!! Conseguiu Resolver!");
 	}
 
 	private void criarMensagemTextoParaEscolherPassageiroDoVeiculo() {
@@ -95,6 +71,7 @@ public class Processador {
 		System.out.println("digite 8 para a escolha do PRESIDIARIO.");
 		System.out.println("");
 		System.out.print("digite o número escolhido: ");
+		System.out.println("");
 	}
 
 	private void criarMensagemTextoParaEscolherPilotoDoVeiculo() {
@@ -105,6 +82,7 @@ public class Processador {
 		System.out.println("digite 3 para a escolha do CHEFE DE SERVIÇO DE VOO");
 		System.out.println("");
 		System.out.print("digite o número escolhido: ");
+		System.out.println("");
 	}
 
 }
