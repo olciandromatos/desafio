@@ -35,8 +35,9 @@ public class Processador {
 	
 	public void processarGame() {
 		carregarDadosTerminal(terminal);
-		System.out.println("LEVE OS TRIPULANTES DO TERMIONAL PARA O AVIÃO.");
-		System.out.println("MAS CUIDADO! ESCOLHA BEM QUEM VAI PILOTAR O VEÍCULO.");
+		System.out.println("LEVE OS TRIPULANTES DO TERMINAL PARA O AVIÃO.");
+		System.out.println("MAS CUIDADO! ESCOLHA BEM QUEM VAI PILOTAR O VEÍCULO. SÓ CABEM 2 NO VEÍCULO. ");
+		System.out.println("DIGITE O NÚMERO QUE CORRESPONDA QUEM VAI SER ESCOLHIDO, LEMBRE-SE QUE VOCÊ VAI ESCOLHER QUEM VAU PILOTAR E QUEM VAI ACOMPANHAR.");
 		
 		do {
 			
@@ -67,7 +68,9 @@ public class Processador {
 			
 		} while (!conseguiu);
 		
-		System.out.println("PARABÉNS!! Conseguiu Resolver!");
+		System.out.println("-----------------------------------");
+		System.out.println("PARABÉNS!! CONSEGUIU RESOLVER!");
+		System.out.println("-----------------------------------");
 	}
 
 	private void carregarDadosTerminal(List<String> terminal) {
@@ -93,7 +96,7 @@ public class Processador {
 		System.out.println("Digite 7 para a escolha do COMISSARIA_02.");
 		System.out.println("Digite 8 para a escolha do PRESIDIARIO.");
 		System.out.println("");
-		System.out.print("Digite o número escolhido: ");
+		System.out.print("Digite o número de quem é apto a pilotar: ");
 	}
 	
 	private void MensagemTextoParaProximo() {

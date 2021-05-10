@@ -30,19 +30,9 @@ public class Aviao {
 			List<String> AVIAO, Presidiario presidiario, Policial policial, Piloto piloto, ChefeServicoVoo chefeServicoVoo, 
 			List<String> VEICULO, Comissaria_1 comissaria_1, Comissaria_2 comissaria_2, List<String> terminal) {
 		
-		tripulatesEsperados.add(CHEFE_DE_SERVIÇO_DE_BORDO);
-		tripulatesEsperados.add("COMISSARIA_01");
-		tripulatesEsperados.add("COMISSARIA_02");
-		tripulatesEsperados.add("CHEFE_DE_SERVIÇO_DE_VOO");
-		tripulatesEsperados.add("OFICIAL_01");
-		tripulatesEsperados.add("OFICIAL_02");
-		tripulatesEsperados.add("PILOTO");
-		tripulatesEsperados.add("POLICIAL");
-		tripulatesEsperados.add("PRESIDIARIO");
+		adicionarTripulantesEsperadosNoAviao();
 		
 		long quantidadeNoAviao =  AVIAO.stream().count();
-//		long quantidadeNoVeiculo = VEICULO.stream().count();
-//		Long quantidadeNoTerminal = terminal.stream().count();
 		
 		if(!AVIAO.contains(CHEFE_DE_SERVIÇO_DE_BORDO)) {
 			AVIAO.add(CHEFE_DE_SERVIÇO_DE_BORDO);
@@ -136,6 +126,41 @@ public class Aviao {
 					}
 				}
 			}
+			
+		if(VEICULO.contains(piloto.getProfissao()) && VEICULO.contains(oficial_1.getProfissao()) || VEICULO.contains(piloto.getProfissao()) && VEICULO.contains(oficial_2.getProfissao())) {
+			if(!AVIAO.contains(oficial_1.getProfissao()) || !AVIAO.contains(oficial_2.getProfissao())) {
+					
+				if(VEICULO.contains(oficial_1.getProfissao())) {
+					AVIAO.add(oficial_1.getProfissao());
+					VEICULO.remove(1);
+				} else {
+					AVIAO.add(oficial_1.getProfissao());
+					VEICULO.remove(1);
+				}
+			}
+		}
+		
+		conseguiu = verificarRegrasNoAviao(conseguiu, oficial_1, oficial_2, AVIAO, presidiario, policial, VEICULO,
+				terminal, quantidadeNoAviao, chefeServicoVoo);
+		
+		return conseguiu;
+	}
+
+	private void adicionarTripulantesEsperadosNoAviao() {
+		tripulatesEsperados.add(CHEFE_DE_SERVIÇO_DE_BORDO);
+		tripulatesEsperados.add("COMISSARIA_01");
+		tripulatesEsperados.add("COMISSARIA_02");
+		tripulatesEsperados.add("CHEFE_DE_SERVIÇO_DE_VOO");
+		tripulatesEsperados.add("OFICIAL_01");
+		tripulatesEsperados.add("OFICIAL_02");
+		tripulatesEsperados.add("PILOTO");
+		tripulatesEsperados.add("POLICIAL");
+		tripulatesEsperados.add("PRESIDIARIO");
+	}
+
+	private Boolean verificarRegrasNoAviao(Boolean conseguiu, Oficial_1 oficial_1, Oficial_2 oficial_2,
+			List<String> AVIAO, Presidiario presidiario, Policial policial, List<String> VEICULO, List<String> terminal,
+			long quantidadeNoAviao, ChefeServicoVoo chefeServicoVoo) {
 		
 		if(quantidadeNoAviao < 3 && AVIAO.contains(CHEFE_DE_SERVIÇO_DE_BORDO) && AVIAO.contains(oficial_1.getProfissao()) 
 				|| quantidadeNoAviao < 3 && AVIAO.contains(CHEFE_DE_SERVIÇO_DE_BORDO) && AVIAO.contains(oficial_2.getProfissao())) {
@@ -146,7 +171,18 @@ public class Aviao {
 			System.out.println("NÃO DEU CERTO, TENTE NOVAMENTE!");
 			System.out.println("");
 			
-			AVIAO = new ArrayList<String>();
+			if (VEICULO.contains(chefeServicoVoo.getProfissao())) {
+				VEICULO.remove(chefeServicoVoo.getProfissao());
+				terminal.add(chefeServicoVoo.getProfissao());
+			}
+
+			if(AVIAO.contains(oficial_1.getProfissao())) {
+				AVIAO.remove(oficial_1.getProfissao());
+				terminal.add(oficial_1.getProfissao());
+			} else {
+				AVIAO.remove(oficial_2.getProfissao());
+				terminal.add(oficial_2.getProfissao());
+			}
 			
 		} else if (AVIAO.contains(presidiario.getProfissao()) && !AVIAO.contains(policial.getProfissao())) {
 			
@@ -157,7 +193,8 @@ public class Aviao {
 			System.out.println("NÃO DEU CERTO, TENTE NOVAMENTE!");
 			System.out.println("");
 			
-			AVIAO = new ArrayList<String>();
+			AVIAO.remove(presidiario.getProfissao());
+			terminal.add(presidiario.getProfissao());
 		
 		} else {
 			
@@ -171,6 +208,7 @@ public class Aviao {
 			System.out.println("");
 			System.out.println("------------------------------------------------------------------------------------");
 			VEICULO.stream().forEach((elemento) -> System.out.println("OS QUE ESTÃO NO VEICULO DEPOIS DE PASSAR NO AVIÃO: " + elemento));
+			System.out.println("CONTINUE LEVANDO MAIS...!");
 			System.out.println("------------------------------------------------------------------------------------");
 			
 			if(quantidadeNoAviao > 8) {
@@ -180,5 +218,4 @@ public class Aviao {
 		
 		return conseguiu;
 	}
-
 }

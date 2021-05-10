@@ -181,6 +181,11 @@ public class VeiculoSmartFortwo {
 			System.out.println("NÃO DEU CERTO, TENTE NOVAMENTE!");
 			System.out.println("");
 			
+			if(VEICULO.contains(chefeServicoVoo.getProfissao())) {
+				VEICULO.remove(chefeServicoVoo.getProfissao());
+				terminal.add(chefeServicoVoo.getProfissao());
+			}
+			
 			VEICULO.remove(policial.getProfissao());
 			terminal.add(policial.getProfissao());
 			
@@ -205,6 +210,8 @@ public class VeiculoSmartFortwo {
 			
 			VEICULO.remove(presidiario.getProfissao());
 			terminal.add(presidiario.getProfissao());
+			VEICULO.remove(piloto.getProfissao());
+			terminal.add(piloto.getProfissao());
 				
 		} else {
 			conseguiu = aviao.adicionarTripulantesNoAviao(conseguiu, oficial_1, oficial_2, AVIAO, presidiario, policial, piloto, chefeServicoVoo, VEICULO, comissaria_1, comissaria_2, terminal);
