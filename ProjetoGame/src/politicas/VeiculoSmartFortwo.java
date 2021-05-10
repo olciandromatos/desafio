@@ -158,8 +158,9 @@ public class VeiculoSmartFortwo {
 		
 		Long quantidadeNoTerminal = terminal.stream().count();
 		
-		System.out.println("");
+		System.out.println("------------------------------------------------------------------------------");
 		VEICULO.stream().forEach((elemento) -> System.out.println("OS QUE ESTÃO NO VEICULO: " + elemento));
+		System.out.println("------------------------------------------------------------------------------");
 		
 		if(VEICULO.contains(piloto.getProfissao()) &&  VEICULO.contains(comissaria_1.getProfissao()) 
 				|| VEICULO.contains(piloto.getProfissao()) &&  VEICULO.contains(comissaria_2.getProfissao())) {

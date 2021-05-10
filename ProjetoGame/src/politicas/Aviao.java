@@ -40,8 +40,9 @@ public class Aviao {
 		tripulatesEsperados.add("POLICIAL");
 		tripulatesEsperados.add("PRESIDIARIO");
 		
-		long countAviao = 0;
-		long countVeiculo = 0;
+		long quantidadeNoAviao =  AVIAO.stream().count();
+//		long quantidadeNoVeiculo = VEICULO.stream().count();
+//		Long quantidadeNoTerminal = terminal.stream().count();
 		
 		if(!AVIAO.contains(CHEFE_DE_SERVIÇO_DE_BORDO)) {
 			AVIAO.add(CHEFE_DE_SERVIÇO_DE_BORDO);
@@ -51,8 +52,6 @@ public class Aviao {
 		System.out.println("Veiculo chegou no avião.");
 		System.out.println("");
 		
-		countVeiculo = VEICULO.stream().count();
-			
 			if(VEICULO.contains(chefeServicoVoo.getProfissao()) && VEICULO.contains(comissaria_1.getProfissao())) {
 				if(!AVIAO.contains(comissaria_1.getProfissao()) ) {
 					AVIAO.add(comissaria_1.getProfissao());
@@ -106,13 +105,29 @@ public class Aviao {
 			
 			if(VEICULO.contains(policial.getProfissao()) && VEICULO.contains(presidiario.getProfissao())) {
 				if(!AVIAO.contains(policial.getProfissao()) || !AVIAO.contains(presidiario.getProfissao())) {
-					if(VEICULO.contains(policial.getProfissao()) && VEICULO.contains(presidiario.getProfissao()) && terminal.contains(chefeServicoVoo.getProfissao())) {
+					if(VEICULO.contains(policial.getProfissao()) && VEICULO.contains(presidiario.getProfissao()) && terminal.contains("CHEFE_DE_SERVIÇO_DE_VOO")) {
 						AVIAO.add(policial.getProfissao());
 						AVIAO.add(presidiario.getProfissao());
 						VEICULO.remove(0);
 						VEICULO.remove(0);
-						VEICULO.add(piloto.getProfissao());
-						AVIAO.remove(piloto.getProfissao());
+						
+						if(AVIAO.contains(piloto.getProfissao())) {
+							VEICULO.add(piloto.getProfissao());
+							AVIAO.remove(piloto.getProfissao());
+					    } else {
+					    	
+					    	System.out.println("O VEÍCULO TEM QUE SER PILOTADO POR ALGUÉM CAPACITADO! E NÃO TEM OUTRA PESSOA QUE SAIBA PILOTAR O VEICULO NO AVIÃO");
+							System.out.println("O PRESIDIARIO NÃO PODE FICAR SOZINHO COM OS TRIPULANTES SEM A PRESENÇA DO POLICIAL NO TERMINAL!");
+							System.out.println("------------------------------------------------------------------------------------");
+							System.out.println("NÃO DEU CERTO, TENTE NOVAMENTE!");
+							System.out.println("");
+							
+							AVIAO.remove(presidiario.getProfissao());
+							AVIAO.remove(policial.getProfissao());
+							terminal.add(policial.getProfissao());
+							terminal.add(presidiario.getProfissao());
+					    }
+						
 					} else {
 						AVIAO.add(policial.getProfissao());
 						AVIAO.add(presidiario.getProfissao());
@@ -122,11 +137,8 @@ public class Aviao {
 				}
 			}
 		
-		countAviao = AVIAO.stream().count();
-		
-		
-		if(countAviao < 3 && AVIAO.contains(CHEFE_DE_SERVIÇO_DE_BORDO) && AVIAO.contains(oficial_1.getProfissao()) 
-				|| countAviao < 3 && AVIAO.contains(CHEFE_DE_SERVIÇO_DE_BORDO) && AVIAO.contains(oficial_2.getProfissao())) {
+		if(quantidadeNoAviao < 3 && AVIAO.contains(CHEFE_DE_SERVIÇO_DE_BORDO) && AVIAO.contains(oficial_1.getProfissao()) 
+				|| quantidadeNoAviao < 3 && AVIAO.contains(CHEFE_DE_SERVIÇO_DE_BORDO) && AVIAO.contains(oficial_2.getProfissao())) {
 			
 			System.out.println("");
 			System.out.println("NENHUM DOS OFICIAIS PODEM FICAR SOZINHO COM O CHEFE DE SERVIÇO DE BORDO");
@@ -149,13 +161,19 @@ public class Aviao {
 		
 		} else {
 			
+			System.out.println("------------------------------------------------------------------------------------");
 			AVIAO.stream().forEach((elemento) -> System.out.println("TRIPULANTES NO AVIÃO: " + elemento));
+			System.out.println("------------------------------------------------------------------------------------");
 			System.out.println("");
+			System.out.println("------------------------------------------------------------------------------------");
 			terminal.stream().forEach((elemento) -> System.out.println("OS QUE CONTINUAM NO TERMINAL: " + elemento));
+			System.out.println("------------------------------------------------------------------------------------");
 			System.out.println("");
+			System.out.println("------------------------------------------------------------------------------------");
 			VEICULO.stream().forEach((elemento) -> System.out.println("OS QUE ESTÃO NO VEICULO DEPOIS DE PASSAR NO AVIÃO: " + elemento));
+			System.out.println("------------------------------------------------------------------------------------");
 			
-			if(countAviao > 8) {
+			if(quantidadeNoAviao > 8) {
 				conseguiu = true;
 			}
 		}
