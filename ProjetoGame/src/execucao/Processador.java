@@ -1,6 +1,7 @@
 package execucao;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Scanner;
 
@@ -40,7 +41,7 @@ public class Processador {
 		System.out.println("DIGITE O NÚMERO QUE CORRESPONDA QUEM VAI SER ESCOLHIDO, LEMBRE-SE QUE VOCÊ VAI ESCOLHER QUEM VAU PILOTAR E QUEM VAI ACOMPANHAR.");
 		
 		do {
-			
+			String nomeEscolhido = null;
 			if(terminal.size() > 1) {
 				for(Integer numeroInterno = 1; numeroInterno < contador; numeroInterno++) {
 					
@@ -51,17 +52,14 @@ public class Processador {
 						}
 					
 					Integer tripulanteEscolhido = opcao.nextInt();
-					if(numeroInterno == 1 && tripulanteEscolhido == 1 && VEICULO.contains(chefeServicoVoo.getProfissao())) {
-						VEICULO.remove(chefeServicoVoo.getProfissao());
-						terminal.add(chefeServicoVoo.getProfissao());
-					}
 					
-					VEICULO = veiculo.selecionarOcupantesParaVeiculo(piloto, policial, chefeServicoVoo, oficial_1, oficial_2, comissaria_1, comissaria_2, presidiario, VEICULO, tripulanteEscolhido, terminal);
+					nomeEscolhido = buscarNomeRelativoAoDigitado(tripulanteEscolhido, terminal);
+					VEICULO = veiculo.selecionarOcupantesParaVeiculo(piloto, policial, chefeServicoVoo, oficial_1, oficial_2, comissaria_1, comissaria_2, presidiario, VEICULO, tripulanteEscolhido, terminal, nomeEscolhido);
 				}
 			} else {
 				MensagemTextoParaProximo();
 				Integer tripulanteEscolhido = opcao.nextInt();
-				VEICULO = veiculo.selecionarOcupantesParaVeiculo(piloto, policial, chefeServicoVoo, oficial_1, oficial_2, comissaria_1, comissaria_2, presidiario, VEICULO, tripulanteEscolhido, terminal);
+				VEICULO = veiculo.selecionarOcupantesParaVeiculo(piloto, policial, chefeServicoVoo, oficial_1, oficial_2, comissaria_1, comissaria_2, presidiario, VEICULO, tripulanteEscolhido, terminal, nomeEscolhido);
 			}
 			
 			conseguiu = veiculo.verificarRegraDeQuemEstaNoVeiculo(conseguiu, aviao, VEICULO, comissaria_1, piloto, policial, comissaria_2, oficial_1, oficial_2, presidiario, chefeServicoVoo, terminal);
@@ -71,6 +69,18 @@ public class Processador {
 		System.out.println("-----------------------------------");
 		System.out.println("PARABÉNS!! CONSEGUIU RESOLVER!");
 		System.out.println("-----------------------------------");
+	}
+
+	private String buscarNomeRelativoAoDigitado(Integer tripulanteEscolhido, List<String> terminal) {
+		String nome = null;
+		Integer count = 1;
+		for (String nomeDaVez : terminal) {
+			if(tripulanteEscolhido == count) {
+				nome = nomeDaVez;
+			} 
+			count++;
+		}
+		return nome;
 	}
 
 	private void carregarDadosTerminal(List<String> terminal) {
@@ -87,14 +97,15 @@ public class Processador {
 	private void MensagemTextoParaEscolherPassageiroDoVeiculo() {
 		System.out.println("");
 		System.out.println("ESCOLHA OS 2 QUE VÃO NO VEÍCULO.");
-		System.out.println("Digite 1 para a escolha do POLICIAL");
-		System.out.println("Digite 2 para a escolha do PILOTO");
-		System.out.println("Digite 3 para a escolha do CHEFE DE SERVIÇO DE VOO");
-		System.out.println("Digite 4 para a escolha do OFICIAL_01.");
-		System.out.println("Digite 5 para a escolha do OFICIAL_02.");
-		System.out.println("Digite 6 para a escolha do COMISSARIA_01.");
-		System.out.println("Digite 7 para a escolha do COMISSARIA_02.");
-		System.out.println("Digite 8 para a escolha do PRESIDIARIO.");
+		
+		Integer count = 0;
+		
+		for (Iterator iterator = terminal.iterator(); iterator.hasNext();) {
+			String string = (String) iterator.next();
+			count++;
+			System.out.println("Digite " + count + " para escolher: " + string);
+		}
+		
 		System.out.println("");
 		System.out.print("Digite o número de quem é apto a pilotar: ");
 	}
@@ -102,14 +113,14 @@ public class Processador {
 	private void MensagemTextoParaProximo() {
 		System.out.println("");
 		System.out.println("ESCOLHA OS 2 QUE VÃO NO VEÍCULO.");
-		System.out.println("Digite 1 para escolher o POLICIAL");
-		System.out.println("Digite 2 para escolher o PILOTO");
-		System.out.println("Digite 3 para escolher o CHEFE DE SERVIÇO DE VOO");
-		System.out.println("Digite 4 para escolher o OFICIAL_01.");
-		System.out.println("Digite 5 para escolher o OFICIAL_02.");
-		System.out.println("Digite 6 para escolher a COMISSARIA_01.");
-		System.out.println("Digite 7 para escolher a COMISSARIA_02.");
-		System.out.println("Digite 8 para escolher o PRESIDIARIO.");
+		Integer count = 0;
+		
+		for (Iterator iterator = terminal.iterator(); iterator.hasNext();) {
+			String string = (String) iterator.next();
+			count++;
+			System.out.println("Digite " + count + " para escolher: " + string);
+		}
+		
 		System.out.println("");
 		System.out.print("Digite o nome do próximo que vai entrar no veículo: ");
 	}

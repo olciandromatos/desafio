@@ -28,9 +28,9 @@ public class VeiculoSmartFortwo {
 	public List<String> selecionarOcupantesParaVeiculo(Piloto piloto, Policial policial,
 			ChefeServicoVoo chefeServicoVoo, Oficial_1 oficial_1, Oficial_2 oficial_2,
 			Comissaria_1 comissaria_1, Comissaria_2 comissaria_2, Presidiario presidiario, List<String> VEICULO,
-			Integer tripulanteEscolhido, List<String> terminal) {
+			Integer tripulanteEscolhido, List<String> terminal, String nomeEscolhido) {
 		
-		if(tripulanteEscolhido == 1) {
+		if(nomeEscolhido.equals("POLICIAL")) {
 			if(policial.getProfissao() != null) {
 				if(!VEICULO.contains(policial.getProfissao())) {
 					policial.setProfissao("POLICIAL");
@@ -39,15 +39,12 @@ public class VeiculoSmartFortwo {
 					terminal.remove(policial.getProfissao());
 				}
 			} else {
-				if(tripulanteEscolhido == 1 && VEICULO.contains(chefeServicoVoo.getProfissao())) {
-					
-				}
 				policial.setProfissao("POLICIAL");
 				System.out.println("Escolheu: " + policial.getProfissao());
 				VEICULO.add(policial.getProfissao());
 				terminal.remove(policial.getProfissao());
 			}
-		} else if (tripulanteEscolhido == 2) {
+		} else if (nomeEscolhido.equals("PILOTO")) {
 			if(piloto.getProfissao() != null) {
 				if(!VEICULO.contains(piloto.getProfissao())) {
 					piloto.setProfissao("PILOTO");
@@ -61,7 +58,7 @@ public class VeiculoSmartFortwo {
 				VEICULO.add(piloto.getProfissao());
 				terminal.remove(piloto.getProfissao());
 			}
-		} else if (tripulanteEscolhido == 3) {
+		} else if (nomeEscolhido.equals("CHEFE_DE_SERVIÇO_DE_VOO")) {
 			if(chefeServicoVoo.getProfissao() != null) {
 				if(!VEICULO.contains(chefeServicoVoo.getProfissao())) {
 					chefeServicoVoo.setProfissao("CHEFE_DE_SERVIÇO_DE_VOO");
@@ -75,7 +72,7 @@ public class VeiculoSmartFortwo {
 				VEICULO.add(chefeServicoVoo.getProfissao());
 				terminal.remove(chefeServicoVoo.getProfissao());
 			}
-		} else if(tripulanteEscolhido == 4) {
+		} else if(nomeEscolhido.equals("OFICIAL_01")) {
 			if(oficial_1.getProfissao() != null) {
 				if(!VEICULO.contains(oficial_1.getProfissao())) {
 					oficial_1.setProfissao("OFICIAL_01");
@@ -90,7 +87,7 @@ public class VeiculoSmartFortwo {
 				VEICULO.add(oficial_1.getProfissao());
 				terminal.remove(oficial_1.getProfissao());
 			}
-		} else if(tripulanteEscolhido == 5) {
+		} else if(nomeEscolhido.equals("OFICIAL_02")) {
 			if(oficial_2.getProfissao() != null) {
 				if(!VEICULO.contains(oficial_2.getProfissao())) {
 					oficial_2.setProfissao("OFICIAL_02");
@@ -104,7 +101,7 @@ public class VeiculoSmartFortwo {
 				System.out.println("Escolheu: " + oficial_2.getProfissao());
 				terminal.remove(oficial_2.getProfissao());
 			}
-		} else if(tripulanteEscolhido == 6) {
+		} else if(nomeEscolhido.equals("COMISSARIA_01")) {
 			if(comissaria_1.getProfissao() != null) {
 				if(!VEICULO.contains(comissaria_1.getProfissao())) {
 					comissaria_1.setProfissao("COMISSARIA_01");
@@ -119,7 +116,7 @@ public class VeiculoSmartFortwo {
 				VEICULO.add(comissaria_1.getProfissao());
 				terminal.remove(comissaria_1.getProfissao());
 			}
-		} else if(tripulanteEscolhido == 7) {
+		} else if(nomeEscolhido.equals("COMISSARIA_02")) {
 			if(comissaria_2.getProfissao() != null) {
 				if(!VEICULO.contains(comissaria_2.getProfissao())) {
 					comissaria_2.setProfissao("COMISSARIA_02");
@@ -133,7 +130,7 @@ public class VeiculoSmartFortwo {
 				VEICULO.add(comissaria_2.getProfissao());
 				terminal.remove(comissaria_2.getProfissao());
 			}
-		} else if(tripulanteEscolhido == 8) {
+		} else if(nomeEscolhido.equals("PRESIDIARIO")) {
 			if(presidiario.getProfissao() != null) {
 				if(!VEICULO.contains(presidiario.getProfissao())) {
 					presidiario.setProfissao("PRESIDIARIO");
@@ -155,69 +152,87 @@ public class VeiculoSmartFortwo {
 	
 	public Boolean verificarRegraDeQuemEstaNoVeiculo(Boolean conseguiu, Aviao aviao, List<String> VEICULO, Comissaria_1 comissaria_1, Piloto piloto, 
 			Policial policial, Comissaria_2 comissaria_2, Oficial_1 oficial_1, Oficial_2 oficial_2, Presidiario presidiario, ChefeServicoVoo chefeServicoVoo, List<String> terminal) {
-		
+		Long quantidadeNoVeiculo = VEICULO.stream().count();
 		Long quantidadeNoTerminal = terminal.stream().count();
 		
-		System.out.println("------------------------------------------------------------------------------");
-		VEICULO.stream().forEach((elemento) -> System.out.println("OS QUE ESTÃO NO VEICULO: " + elemento));
-		System.out.println("------------------------------------------------------------------------------");
-		
-		if(VEICULO.contains(piloto.getProfissao()) &&  VEICULO.contains(comissaria_1.getProfissao()) 
-				|| VEICULO.contains(piloto.getProfissao()) &&  VEICULO.contains(comissaria_2.getProfissao())) {
+		if(quantidadeNoVeiculo > 2) {
+			
 			System.out.println("------------------------------------------------------------------------------------");
-			System.out.println("NENHUMA DAS COMISSÁRIAS PODEM FICAR SOZINHA COM O PILOTO!");
+			System.out.println("QUANTIDADE DE PASSAGEIROS NO VEÍCULO ACIMA DO SUPORTADO, OS PASSAGEIROS VOLTARÃO TODOS PARA O TERMINAL!");
 			System.out.println("------------------------------------------------------------------------------------");
-			System.out.println("NÃO DEU CERTO, TENTE NOVAMENTE!");
+			System.out.println("POR FAVOR, TENTE NOVAMENTE!!");
 			System.out.println("");
 			
-			VEICULO.remove(comissaria_1.getProfissao());
-			terminal.add(comissaria_1.getProfissao());
+			VEICULO.stream().forEach((elemento) -> terminal.add(elemento));
 			
-		} else if (quantidadeNoTerminal > 1 && VEICULO.contains(policial.getProfissao()) && terminal.contains("PRESIDIARIO")) {
-			
-			System.out.println("------------------------------------------------------------------------------------");
-			System.out.println("O PRESIDIARIO NÃO PODE FICAR SOZINHO COM OS TRIPULANTES SEM A PRESENÇA DO POLICIAL NO TERMINAL!");
-			System.out.println("------------------------------------------------------------------------------------");
-			System.out.println("NÃO DEU CERTO, TENTE NOVAMENTE!");
-			System.out.println("");
-			
-			if(VEICULO.contains(chefeServicoVoo.getProfissao())) {
-				VEICULO.remove(chefeServicoVoo.getProfissao());
-				terminal.add(chefeServicoVoo.getProfissao());
+			while(VEICULO.iterator().hasNext()) {
+				VEICULO.remove(0);
 			}
 			
-			VEICULO.remove(policial.getProfissao());
-			terminal.add(policial.getProfissao());
-			
-		} else if (VEICULO.contains(chefeServicoVoo.getProfissao()) && VEICULO.contains(presidiario.getProfissao())) {	
-			
-			System.out.println("------------------------------------------------------------------------------------");
-			System.out.println("O PRESIDIARIO NÃO PODE FICAR SOZINHO COM OS TRIPULANTES SEM A PRESENÇA DO POLICIAL NO TERMINAL!");
-			System.out.println("------------------------------------------------------------------------------------");
-			System.out.println("NÃO DEU CERTO, TENTE NOVAMENTE!");
-			System.out.println("");
-			
-			VEICULO.remove(presidiario.getProfissao());
-			terminal.add(presidiario.getProfissao());
-		
-		} else if (VEICULO.contains(piloto.getProfissao()) && VEICULO.contains(presidiario.getProfissao())) {
-			
-			System.out.println("------------------------------------------------------------------------------------");
-			System.out.println("O PRESIDIARIO NÃO PODE FICAR SOZINHO COM OS TRIPULANTES SEM A PRESENÇA DO POLICIAL NO TERMINAL!");
-			System.out.println("------------------------------------------------------------------------------------");
-			System.out.println("NÃO DEU CERTO, TENTE NOVAMENTE!");
-			System.out.println("");
-			
-			VEICULO.remove(presidiario.getProfissao());
-			terminal.add(presidiario.getProfissao());
-			VEICULO.remove(piloto.getProfissao());
-			terminal.add(piloto.getProfissao());
-				
 		} else {
-			conseguiu = aviao.adicionarTripulantesNoAviao(conseguiu, oficial_1, oficial_2, AVIAO, presidiario, policial, piloto, chefeServicoVoo, VEICULO, comissaria_1, comissaria_2, terminal);
-			System.out.println("");
-			System.out.println("Jogo Finalizado: " + conseguiu);
+		
+			System.out.println("------------------------------------------------------------------------------");
+			VEICULO.stream().forEach((elemento) -> System.out.println("OS QUE ESTÃO NO VEICULO: " + elemento));
+			System.out.println("------------------------------------------------------------------------------");
+			
+			if(VEICULO.contains(piloto.getProfissao()) &&  VEICULO.contains(comissaria_1.getProfissao()) 
+					|| VEICULO.contains(piloto.getProfissao()) &&  VEICULO.contains(comissaria_2.getProfissao())) {
+				System.out.println("------------------------------------------------------------------------------------");
+				System.out.println("NENHUMA DAS COMISSÁRIAS PODEM FICAR SOZINHA COM O PILOTO!");
+				System.out.println("------------------------------------------------------------------------------------");
+				System.out.println("NÃO DEU CERTO, TENTE NOVAMENTE!");
+				System.out.println("");
+				
+				VEICULO.remove(comissaria_1.getProfissao());
+				terminal.add(comissaria_1.getProfissao());
+				
+			} else if (quantidadeNoTerminal > 1 && VEICULO.contains(policial.getProfissao()) && terminal.contains("PRESIDIARIO")) {
+				
+				System.out.println("------------------------------------------------------------------------------------");
+				System.out.println("O PRESIDIARIO NÃO PODE FICAR SOZINHO COM OS TRIPULANTES SEM A PRESENÇA DO POLICIAL NO TERMINAL!");
+				System.out.println("------------------------------------------------------------------------------------");
+				System.out.println("NÃO DEU CERTO, TENTE NOVAMENTE!");
+				System.out.println("");
+				
+				if(VEICULO.contains(chefeServicoVoo.getProfissao())) {
+					VEICULO.remove(chefeServicoVoo.getProfissao());
+					terminal.add(chefeServicoVoo.getProfissao());
+				}
+				
+				VEICULO.remove(policial.getProfissao());
+				terminal.add(policial.getProfissao());
+				
+			} else if (VEICULO.contains(chefeServicoVoo.getProfissao()) && VEICULO.contains(presidiario.getProfissao())) {	
+				
+				System.out.println("------------------------------------------------------------------------------------");
+				System.out.println("O PRESIDIARIO NÃO PODE FICAR SOZINHO COM OS TRIPULANTES SEM A PRESENÇA DO POLICIAL NO TERMINAL!");
+				System.out.println("------------------------------------------------------------------------------------");
+				System.out.println("NÃO DEU CERTO, TENTE NOVAMENTE!");
+				System.out.println("");
+				
+				VEICULO.remove(presidiario.getProfissao());
+				terminal.add(presidiario.getProfissao());
+			
+			} else if (VEICULO.contains(piloto.getProfissao()) && VEICULO.contains(presidiario.getProfissao())) {
+				
+				System.out.println("------------------------------------------------------------------------------------");
+				System.out.println("O PRESIDIARIO NÃO PODE FICAR SOZINHO COM OS TRIPULANTES SEM A PRESENÇA DO POLICIAL NO TERMINAL!");
+				System.out.println("------------------------------------------------------------------------------------");
+				System.out.println("NÃO DEU CERTO, TENTE NOVAMENTE!");
+				System.out.println("");
+				
+				VEICULO.remove(presidiario.getProfissao());
+				terminal.add(presidiario.getProfissao());
+				VEICULO.remove(piloto.getProfissao());
+				terminal.add(piloto.getProfissao());
+					
+			} else {
+				conseguiu = aviao.adicionarTripulantesNoAviao(conseguiu, oficial_1, oficial_2, AVIAO, presidiario, policial, piloto, chefeServicoVoo, VEICULO, comissaria_1, comissaria_2, terminal);
+				System.out.println("");
+				System.out.println("Jogo Finalizado: " + conseguiu);
+			}
 		}
+		
 		return conseguiu;
 	}
 }
